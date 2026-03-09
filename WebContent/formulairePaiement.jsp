@@ -1,6 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" %>
 <%@ include file="header.jsp" %>
 <%@ include file="menu.jsp" %>
+
+<%//Test de vérification de modéle et Session %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,7 +13,7 @@
   <div class="container">
     <div class="header">
       <h1>Finalisez votre inscription</h1>
-      <p>Paiement sécurisé - montant </p>
+      <p>Paiement sécurisé - <%//=model.montant %> </p>
     </div>
     <div class="cards-logos" aria-label="Logos des cartes acceptées">
       <img src="im3.png" alt="Visa">
@@ -61,11 +64,14 @@
 	    </div>
 	    <div class="buttons">
 	      <button type="submit" class="btn-submit" >
-	      Payer montant DH
+	      Payer <%//=montant %> DH
 	      </button>
 	      <a href="Acceuil.php" class="btn-cancel">Annuler</a>
 	    </div>
     </form>
+    
+    <%// validation de reservation si le client a payé et enregistrement dans la bdd %>
+    
   </div>
 </body>
 </html>

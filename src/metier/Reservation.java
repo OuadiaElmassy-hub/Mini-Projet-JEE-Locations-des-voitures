@@ -1,32 +1,23 @@
-package model;
+package metier;
 
-import java.util.Date;
+import java.io.Serializable;
+import java.sql.Date;
 
-public class Reservation {
+public class Reservation implements Serializable{
 
+	private static final long serialVersionUID = 1L;
 	private int idReservation;
 	private Date dateDebut;
 	private Date dateFin;
-	private float montant;
+	private Double montant;
 	private String statutReservation;
 	private String statutPaiement;
 	
 	public Reservation() {
-		
-	}
-	
-	public Reservation(int idReservation, Date dateDebut, Date dateFin, float montant, String statutReservation,
-			String statutPaiement) {
 		super();
-		this.idReservation = idReservation;
-		this.dateDebut = dateDebut;
-		this.dateFin = dateFin;
-		this.montant = montant;
-		this.statutReservation = statutReservation;
-		this.statutPaiement = statutPaiement;
 	}
 
-	public Reservation(Date dateDebut, Date dateFin, float montant, String statutReservation, String statutPaiement) {
+	public Reservation(Date dateDebut, Date dateFin, Double montant, String statutReservation, String statutPaiement) {
 		super();
 		this.dateDebut = dateDebut;
 		this.dateFin = dateFin;
@@ -59,11 +50,11 @@ public class Reservation {
 		this.dateFin = dateFin;
 	}
 	
-	public float getMontant() {
+	public Double getMontant() {
 		return montant;
 	}
 	
-	public void setMontant(float montant) {
+	public void setMontant(Double montant) {
 		this.montant = montant;
 	}
 	

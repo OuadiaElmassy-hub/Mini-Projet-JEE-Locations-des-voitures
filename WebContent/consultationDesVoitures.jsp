@@ -2,6 +2,8 @@
 <%@ include file="header.jsp" %>
 <%@ include file="menu.jsp" %>
 
+<%//Test de vérification de modéle et Session %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -12,10 +14,11 @@
 		<form action="consultation" method="GET"><!-- on peut utiliser get -->
 			<label>Date de Reservation :</label><br><br>
 			<label>Début :</label>
-			<input type="date" name="dateDebut" ><br><br>
+			<input type="date" name="dateDebut" value="<%//=model.dateDebut %>"><br><br>
 			<label>Fin :</label>
-			<input type="date" name="dateFin" ><br><br>
+			<input type="date" name="dateFin" value="<%//=model.dateFin %>"><br><br>
 			<label>Catégorie :</label><br><br>
+			Tout <input type="radio" name="categorie" value="tout" ><br><!-- n'importe quelle categorie -->
 			SBN <input type="radio" name="categorie" value="sbn" ><br>
 			Sport <input type="radio" name="categorie" value="sport" ><br><br>
 			<input type="submit" value="Rechercher">
@@ -25,6 +28,7 @@
 	<div><!-- Affichage des résultats -->
 		<!-- soit des cartes ou un tableau -->
 		<hr/>
+		<!-- on utilisant jstl -->
 		<c:if test="${not empty resultats}">
 		    <table border="1">
 		        <tr><th>Voiture</th><th>Catégorie</th><th>Date dispo</th></tr>

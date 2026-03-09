@@ -1,6 +1,10 @@
-package model;
+package metier;
 
-public class Client {
+import java.io.Serializable;
+
+public class Client implements Serializable{
+	
+	private static final long serialVersionUID = 1L;
 	private int idClient;
 	private String nPermis;
 	private String name;
@@ -8,19 +12,11 @@ public class Client {
 	private String pwd;
 	
 	public Client() {
+		super();
 	}
 	
 	public Client(String nPermis, String name, String email, String pwd) {
 		super();
-		this.nPermis = nPermis;
-		this.name = name;
-		this.email = email;
-		this.pwd = pwd;
-	}
-	
-	public Client(int idClient, String nPermis, String name, String email, String pwd) {
-		super();
-		this.idClient = idClient;
 		this.nPermis = nPermis;
 		this.name = name;
 		this.email = email;
