@@ -10,7 +10,9 @@ import java.util.List;
 
 import metier.Voiture;
 
-public class VoitureDao {
+public class VoitureDAO implements IVoitureDAO{
+
+	@Override
 	public Voiture ajouterVoiture(Voiture v) {
 		Connection connection = SingletonConnection.getConnexion();
 		try {
@@ -28,15 +30,136 @@ public class VoitureDao {
 				v.setIdVoiture(rs.getInt("MAX_ID"));
 			}
 			ps.close();
-			// connection.close(); non si on utilise un singleton.
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		return v;
 	}
-	
-	public List<Voiture> chercherVoitureMarque(String marque){
+
+	@Override
+	public Voiture modifierVoiture(Voiture v) {
+		Connection connection = SingletonConnection.getConnexion();
+		try {
+			PreparedStatement ps = connection.prepareStatement
+					("UPDATE VOITURE SET Matricule = ?, "
+							+ "SET Marque = ?,"
+							+ "SET Modele = ?,"
+							+ "SET PrixJour = ?,"
+							+ "SET Categorie = ? "
+							+ "WHERE IdVoiture = ?");
+			
+			ps.setString(1, v.getMatricule());
+			ps.setString(2, v.getMarque());
+			ps.setString(3, v.getModele());
+			ps.setDouble(4, v.getPrixJour());
+			ps.setString(5, v.getCategorie());
+			ps.setInt(6, v.getIdVoiture());
+			
+			ps.executeUpdate();
+			
+			// on peut retourner directement la voiture de parametre.
+			
+			PreparedStatement ps1 = connection.prepareStatement
+					("SELECT IdVoiture, Matricule, Marque, Modele, PrixJour, Categorie "
+							+ "FROM VOITURE WHERE IdVoiture = ?");
+			ps1.setInt(1, v.getIdVoiture());
+			
+			ResultSet rs = ps1.executeQuery();
+			if(rs.next()) {
+				v.setMatricule(rs.getString("Matricule"));
+				v.setMarque(rs.getString("Marque"));
+				v.setModele(rs.getString("Modele"));
+				v.setCategorie(rs.getString("Categorie"));
+			}
+			
+			ps.close();
+			ps1.close();
+			rs.close();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return v;
+	}
+
+	@Override
+	public void supprimerVoiture(int id) {
+		Connection connection = SingletonConnection.getConnexion();
+		try {
+			PreparedStatement ps = connection.prepareStatement
+					("DELETE FROM VOITURE WHERE IdVoiture = ?");
+			
+			ps.setInt(1, id);
+			
+			ps.executeUpdate();
+			
+			ps.close();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}		
+	}
+
+	@Override
+	public Voiture rechercherVoitureParId(int id) {
+		Voiture v = new Voiture();
+		Connection connection = SingletonConnection.getConnexion();
+		try {
+			PreparedStatement ps = connection.prepareStatement
+					("SELECT IdVoiture, Matricule, Marque, Modele, PrixJour, Categorie "
+							+ "FROM VOITURE WHERE IdVoiture = ?");
+			ps.setInt(1, id);
+			
+			ResultSet rs = ps.executeQuery();
+			if(rs.next()) {
+				v.setIdVoiture(rs.getInt("IdVoiture"));
+				v.setMatricule(rs.getString("Matricule"));
+				v.setMarque(rs.getString("Marque"));
+				v.setModele(rs.getString("Modele"));
+				v.setCategorie(rs.getString("Categorie"));
+			}
+			
+			ps.close();
+			rs.close();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return v;
+	}
+
+	@Override
+	public List<Voiture> getAllVoitures() {
+		List<Voiture> voitures = new ArrayList<>();
+		Connection connection = SingletonConnection.getConnexion();
+		try {
+			PreparedStatement ps = connection.prepareStatement
+					("SELECT IdVoiture, Matricule, Marque, Modele, PrixJour, Categorie "
+							+ "FROM VOITURE");
+			
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()) {
+				Voiture v = new Voiture();
+				v.setIdVoiture(rs.getInt("IdVoiture"));
+				v.setMatricule(rs.getString("Matricule"));
+				v.setMarque(rs.getString("Marque"));
+				v.setModele(rs.getString("Modele"));
+				v.setCategorie(rs.getString("Categorie"));
+				
+				voitures.add(v);
+			}
+			ps.close();
+			rs.close();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return voitures;
+	}
+
+	@Override
+	public List<Voiture> rechercherVoituresParMarque(String marque) {
 		List<Voiture> voitures = new ArrayList<>();
 		Connection connection = SingletonConnection.getConnexion();
 		try {
@@ -64,14 +187,15 @@ public class VoitureDao {
 		}
 		return voitures;
 	}
-	
-	public List<Voiture> chercherVoitureCatDate(String categorie, Date dateDebut, Date dateFin){
+
+	@Override
+	public List<Voiture> rechercherVoituresParCatDate(String categorie, Date dateDebut, Date dateFin) {
 		List<Voiture> voitures = new ArrayList<>();
 		Connection connection = SingletonConnection.getConnexion();
 		try {
 			PreparedStatement ps = connection.prepareStatement
 					("SELECT IdVoiture, Matricule, Marque, Modele, PrixJour, Categorie "
-							+ "FROM VOITURES V JOIN RESERVATION R"
+							+ "FROM VOITURE V JOIN RESERVATION R"
 							+ "ON V.IdVoiture = R.IdVoiture"
 							+ "WHERE V.Categorie = ? AND R.DateDebut = ? AND R.DateFin = ?");
 			ps.setString(1, categorie);
@@ -97,41 +221,15 @@ public class VoitureDao {
 		}
 		return voitures;
 	}
-	
-	public Voiture getVoiture(int id) {
+
+	@Override
+	public Voiture rechercherVoitureParMatricule(String matricule) {
 		Voiture v = new Voiture();
 		Connection connection = SingletonConnection.getConnexion();
 		try {
 			PreparedStatement ps = connection.prepareStatement
 					("SELECT IdVoiture, Matricule, Marque, Modele, PrixJour, Categorie "
-							+ "FROM VOITURES WHERE IdVoiture = ?");
-			ps.setInt(1, id);
-			
-			ResultSet rs = ps.executeQuery();
-			if(rs.next()) {
-				v.setIdVoiture(rs.getInt("IdVoiture"));
-				v.setMatricule(rs.getString("Matricule"));
-				v.setMarque(rs.getString("Marque"));
-				v.setModele(rs.getString("Modele"));
-				v.setCategorie(rs.getString("Categorie"));
-			}
-			
-			ps.close();
-			rs.close();
-			
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return v;
-	}
-	
-	public Voiture getVoitureMatricule(String matricule) {
-		Voiture v = new Voiture();
-		Connection connection = SingletonConnection.getConnexion();
-		try {
-			PreparedStatement ps = connection.prepareStatement
-					("SELECT IdVoiture, Matricule, Marque, Modele, PrixJour, Categorie "
-							+ "FROM VOITURES WHERE Matricule = ?");
+							+ "FROM VOITURE WHERE Matricule = ?");
 			ps.setString(1, matricule);
 			
 			ResultSet rs = ps.executeQuery();
@@ -151,49 +249,10 @@ public class VoitureDao {
 		}
 		return v;
 	}
-	
-	public Voiture modifierVoiture(Voiture v) { // Dépend de se qu'on veut modifier
-		Connection connection = SingletonConnection.getConnexion();
-		try {
-			PreparedStatement ps = connection.prepareStatement
-					("UPDATE VOITURE SET Matricule = ?, "
-							+ "SET Marque = ?,"
-							+ "SET Modele = ?,"
-							+ "SET PrixJour = ?,"
-							+ "SET Categorie = ? "
-							+ "WHERE IdVoiture = ?");
-			
-			ps.setString(1, v.getMatricule());
-			ps.setString(2, v.getMarque());
-			ps.setString(3, v.getModele());
-			ps.setDouble(4, v.getPrixJour());
-			ps.setString(5, v.getCategorie());
-			ps.setInt(6, v.getIdVoiture());
-			
-			ps.executeUpdate();
-			
-			ps.close();
-			
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return v;
-	}
-	
-	public void supprimerVoiture(int id) {
-		Connection connection = SingletonConnection.getConnexion();
-		try {
-			PreparedStatement ps = connection.prepareStatement
-					("DELETE FROM VOITURE WHERE IdVoiture = ?");
-			
-			ps.setInt(1, id);
-			
-			ps.executeUpdate();
-			
-			ps.close();
-			
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+
+	@Override
+	public Voiture rechercherVoituresParAutre() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
