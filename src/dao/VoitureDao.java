@@ -8,7 +8,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import metier.Voiture;
+import entities.Voiture;
 
 public class VoitureDAO implements IVoitureDAO{
 

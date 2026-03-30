@@ -1,8 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ include file="header.jsp" %>
 <%@ include file="menu.jsp" %>
 
-<%//Test de vérification de modéle et Session %>
+<!--Test de vérification de modéle et Session -->
 
 <!DOCTYPE html>
 <html>
@@ -11,16 +12,17 @@
 </head>
 <body>
 	<div><!-- formulaire de recherche des voitures on se basant sur date de reservation et categories -->
-		<form action="consultation" method="GET"><!-- on peut utiliser get -->
+		<form action="consultation.php" method="GET">
 			<label>Date de Reservation :</label><br><br>
 			<label>Début :</label>
-			<input type="date" name="dateDebut" value="<%//=model.dateDebut %>"><br><br>
-			<label>Fin :</label>
-			<input type="date" name="dateFin" value="<%//=model.dateFin %>"><br><br>
+			<input type="date" name="dateDebut" value="${empty param.dateDebut ? today : param.dateDebut}"><br><br>
 			<label>Catégorie :</label><br><br>
-			Tout <input type="radio" name="categorie" value="tout" ><br><!-- n'importe quelle categorie -->
-			SBN <input type="radio" name="categorie" value="sbn" ><br>
-			Sport <input type="radio" name="categorie" value="sport" ><br><br>
+			Tout <input type="radio" name="categorie" value="tout" 
+						${empty param.categorie || param.categorie == 'tout' ? 'checked' : ''} ><br><!-- n'importe quelle categorie -->
+			SBN <input type="radio" name="categorie" value="sbn" 
+						${param.categorie == 'sbn' ? 'checked' : ''} ><br>
+			Sport <input type="radio" name="categorie" value="sport" 
+						${param.categorie == 'sport' ? 'checked' : ''} ><br><br>
 			<input type="submit" value="Rechercher">
 		</form>	
 	</div>

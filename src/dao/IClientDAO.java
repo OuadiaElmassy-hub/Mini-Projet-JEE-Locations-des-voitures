@@ -2,7 +2,7 @@ package dao;
 
 import java.util.List;
 
-import metier.Client;
+import entities.Client;
 
 public interface IClientDAO {
 	

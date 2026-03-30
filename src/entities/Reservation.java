@@ -1,4 +1,4 @@
-package metier;
+package entities;
 
 import java.io.Serializable;
 import java.sql.Date;
@@ -11,19 +11,21 @@ public class Reservation implements Serializable{
 	private Date dateFin;
 	private Double montant;
 	private String statutReservation;
-	private String statutPaiement;
+	private int idClient;
+	private int idVoiture;
 	
 	public Reservation() {
 		super();
 	}
 
-	public Reservation(Date dateDebut, Date dateFin, Double montant, String statutReservation, String statutPaiement) {
+	public Reservation(Date dateDebut, Date dateFin, Double montant, String statutReservation, int idClient, int idVoiture) {
 		super();
 		this.dateDebut = dateDebut;
 		this.dateFin = dateFin;
 		this.montant = montant;
 		this.statutReservation = statutReservation;
-		this.statutPaiement = statutPaiement;
+		this.idClient = idClient;
+		this.idVoiture = idVoiture;
 	}
 
 	public int getIdReservation() {
@@ -66,11 +68,20 @@ public class Reservation implements Serializable{
 		this.statutReservation = statutReservation;
 	}
 	
-	public String getStatutPaiement() {
-		return statutPaiement;
+	public int getIdClient() {
+		return idClient;
 	}
-	
-	public void setStatutPaiement(String statutPaiement) {
-		this.statutPaiement = statutPaiement;
+
+	public void setIdClient(int idClient) {
+		this.idClient = idClient;
 	}
+
+	public int getIdVoiture() {
+		return idVoiture;
+	}
+
+	public void setIdVoiture(int idVoiture) {
+		this.idVoiture = idVoiture;
+	}
+
 }

@@ -3,7 +3,7 @@ package dao;
 import java.sql.Date;
 import java.util.List;
 
-import metier.Voiture;
+import entities.Voiture;
 
 public interface IVoitureDAO {
 	

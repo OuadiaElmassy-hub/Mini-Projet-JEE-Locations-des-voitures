@@ -8,7 +8,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import metier.Reservation;;
+import entities.Reservation;;
 
 public class ReservationDAO implements IReservationDAO{
 
@@ -18,13 +18,14 @@ public class ReservationDAO implements IReservationDAO{
 		try {
 			PreparedStatement ps = connection.prepareStatement
 					("INSERT INTO RESERVATION (DateDebut, DateFin, Montant,"
-						+ " statusReservation, statusPaiement) VALUES (?, ?, ?, ?, ?)");
+						+ " statusReservation, IdClient, IdVoiture) VALUES (?, ?, ?, ?, ?, ?)");
 			
 			ps.setDate(1, r.getDateDebut());
 			ps.setDate(2, r.getDateFin());
 			ps.setDouble(3, r.getMontant());
 			ps.setString(4, r.getStatutReservation());
-			ps.setString(5, r.getStatutPaiement());
+			ps.setInt(5, r.getIdClient());
+			ps.setInt(6, r.getIdVoiture());
 			
 			ps.executeUpdate();
 			
@@ -50,22 +51,23 @@ public class ReservationDAO implements IReservationDAO{
 		try {
 			PreparedStatement ps = connection.prepareStatement("UPDATE RESERVATION "
 					+ "SET DateDebut = ?, SET DateFin = ?, SET Montant = ?,"
-					+ "SET statusReservation = ?, SET statusPaiement = ? "
+					+ "SET statusReservation = ?, SET IdClient = ?, SET IdVoiture = ? "
 					+ "WHERE IdReservation = ?");
 			
 			ps.setDate(1, r.getDateDebut());
 			ps.setDate(2, r.getDateFin());
 			ps.setDouble(3, r.getMontant());
 			ps.setString(4, r.getStatutReservation());
-			ps.setString(5, r.getStatutPaiement());
-			ps.setInt(6, r.getIdReservation());
+			ps.setInt(5, r.getIdClient());
+			ps.setInt(6, r.getIdVoiture());
+			ps.setInt(7, r.getIdReservation());
 
 			ps.executeUpdate();
 			
 			// on peut retourner directement la reservation de parametre.
 			
 			PreparedStatement ps2 = connection.prepareStatement("SELECT IdReservation, "
-					+ "DateDebut, DateFin, Montant, statusReservation, statusPaiement" 
+					+ "DateDebut, DateFin, Montant, statusReservation, IdClient, IdVoiture" 
 					+ "FROM RESERVATION WHERE IdReservation = ?");
 			
 			ps2.setInt(1, r.getIdReservation());
@@ -77,7 +79,8 @@ public class ReservationDAO implements IReservationDAO{
 				r.setDateFin(rs.getDate("DateFin"));
 				r.setMontant(rs.getDouble("Montant"));
 				r.setStatutReservation(rs.getString("StatusReservation"));
-				r.setStatutPaiement(rs.getString("StatusPaiement"));
+				r.setIdClient(rs.getInt("IdClient"));
+				r.setIdVoiture(rs.getInt("IdVoiture"));
 			}
 			ps.close();
 			ps2.close();
@@ -112,7 +115,7 @@ public class ReservationDAO implements IReservationDAO{
 		Connection connection = SingletonConnection.getConnexion();
 		try {
 			PreparedStatement ps = connection.prepareStatement(
-					"SELECT IdReservation, DateDebut, DateFin, Montant, statusReservation, statusPaiement"
+					"SELECT IdReservation, DateDebut, DateFin, Montant, statusReservation, IdCLient, IdVoiture"
 					+ "FROM RESERVATION WHERE IdReservation = ?");
 			
 			ps.setInt(1, id);
@@ -125,7 +128,8 @@ public class ReservationDAO implements IReservationDAO{
 				r.setDateFin(rs.getDate("DateFin"));
 				r.setMontant(rs.getDouble("Montant"));
 				r.setStatutReservation(rs.getString("StatusReservation"));
-				r.setStatutPaiement(rs.getString("StatusPaiement"));
+				r.setIdClient(rs.getInt("IdClient"));
+				r.setIdVoiture(rs.getInt("IdVoiture"));
 			}
 			ps.close();
 			rs.close();
@@ -143,7 +147,7 @@ public class ReservationDAO implements IReservationDAO{
 		try {
 			PreparedStatement ps = connection.prepareStatement(
 					"SELECT IdReservation, DateDebut, DateFin, Montant, statusReservation, "
-					+ "statusPaiement FROM RESERVATION");
+					+ "IdClient, IdVoiture FROM RESERVATION");
 
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
@@ -154,7 +158,8 @@ public class ReservationDAO implements IReservationDAO{
 				r.setDateFin(rs.getDate("DateFin"));
 				r.setMontant(rs.getDouble("Montant"));
 				r.setStatutReservation(rs.getString("StatusReservation"));
-				r.setStatutPaiement(rs.getString("StatusPaiement"));
+				r.setIdClient(rs.getInt("IdClient"));
+				r.setIdVoiture(rs.getInt("IdVoiture"));
 				
 				reservations.add(r);
 			}
@@ -173,8 +178,8 @@ public class ReservationDAO implements IReservationDAO{
 		Connection connection = SingletonConnection.getConnexion();
 		try {
 			PreparedStatement ps = connection.prepareStatement(
-					"SELECT IdReservation, DateDebut, DateFin, Montant, statusReservation, statusPaiement"
-							+ "FROM RESERVATION WHERE DateDebut = ?");
+					"SELECT IdReservation, DateDebut, DateFin, Montant, statusReservation, "
+					+ "IdClient, IdVoiture FROM RESERVATION WHERE DateDebut = ?");
 			
 			ps.setDate(1, dateDebut);
 
@@ -187,7 +192,8 @@ public class ReservationDAO implements IReservationDAO{
 				r.setDateFin(rs.getDate("DateFin"));
 				r.setMontant(rs.getDouble("Montant"));
 				r.setStatutReservation(rs.getString("StatusReservation"));
-				r.setStatutPaiement(rs.getString("StatusPaiement"));
+				r.setIdClient(rs.getInt("IdClient"));
+				r.setIdVoiture(rs.getInt("IdVoiture"));
 				
 				reservations.add(r);
 			}
@@ -206,8 +212,8 @@ public class ReservationDAO implements IReservationDAO{
 		Connection connection = SingletonConnection.getConnexion();
 		try {
 			PreparedStatement ps = connection.prepareStatement(
-					"SELECT IdReservation, DateDebut, DateFin, Montant, statusReservation, statusPaiement"
-							+ "FROM RESERVATION WHERE DateFin = ?");
+					"SELECT IdReservation, DateDebut, DateFin, Montant, statusReservation,"
+					+ " IdClient, IdVoiture FROM RESERVATION WHERE DateFin = ?");
 			
 			ps.setDate(2, dateFin);
 
@@ -220,7 +226,8 @@ public class ReservationDAO implements IReservationDAO{
 				r.setDateFin(rs.getDate("DateFin"));
 				r.setMontant(rs.getDouble("Montant"));
 				r.setStatutReservation(rs.getString("StatusReservation"));
-				r.setStatutPaiement(rs.getString("StatusPaiement"));
+				r.setIdClient(rs.getInt("IdClient"));
+				r.setIdVoiture(rs.getInt("IdVoiture"));
 				
 				reservations.add(r);
 			}

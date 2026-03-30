@@ -1,4 +1,4 @@
-package metier;
+package entities;
 
 import java.io.Serializable;
 

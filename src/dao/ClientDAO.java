@@ -7,7 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import metier.Client;
+import entities.Client;
 
 public class ClientDAO implements IClientDAO {
 
@@ -17,13 +17,15 @@ public class ClientDAO implements IClientDAO {
 		Connection connection = SingletonConnection.getConnexion();
 		try {
 			PreparedStatement ps = connection.prepareStatement("INSERT INTO CLIENT "
-					+ "( NumPermis, Nom, Prenom, Email, MotDePasse) VALUES (?, ?, ?, ?, ?)");
+					+ "( NumPermis, Nom, Prenom, Telephone,  Adresse, Email, MotDePasse) VALUES (?, ?, ?, ?, ?, ?)");
 
 			ps.setString(1, c.getNumPermis());
 			ps.setString(2, c.getNom());
 			ps.setString(3, c.getPrenom());
-			ps.setString(4, c.getEmail());
-			ps.setString(5, c.getMotDePasse());
+			ps.setString(4, c.getTelephone());
+			ps.setString(5, c.getAdresse());
+			ps.setString(6, c.getEmail());
+			ps.setString(7, c.getMotDePasse());
 
 			ps.executeUpdate();
 
@@ -47,21 +49,24 @@ public class ClientDAO implements IClientDAO {
 		Connection connection = SingletonConnection.getConnexion();
 		try {
 			PreparedStatement ps = connection.prepareStatement("UPDATE CLIENT "
-					+ "SET NumPermis = ?,SET Nom = ?,SET Prenom = ?,"
-					+ "SET Email = ?,SET MotDePasse = ? WHERE IdClient = ?");
+					+ "SET NumPermis = ?, SET Nom = ?, SET Prenom = ?, SET Telephone = ?,"
+					+ "SET Adresse = ?, SET Email = ?,SET MotDePasse = ? WHERE IdClient = ?");
 
 			ps.setString(1, c.getNumPermis());
 			ps.setString(2, c.getNom());
 			ps.setString(3, c.getPrenom());
-			ps.setString(4, c.getEmail());
-			ps.setString(5, c.getMotDePasse());
-			ps.setInt(6, c.getIdClient());
+			ps.setString(4, c.getTelephone());
+			ps.setString(5, c.getAdresse());
+			ps.setString(6, c.getEmail());
+			ps.setString(7, c.getMotDePasse());
+			ps.setInt(8, c.getIdClient());
 
 			ps.executeUpdate();
 
 			// on peut retourner directement le Client de parametre.
 			
-			PreparedStatement ps1 = connection.prepareStatement("SELECT IdClient, NumPermis, Nom, Prenom, Email, MotDePasse"
+			PreparedStatement ps1 = connection.prepareStatement("SELECT IdClient, NumPermis, Nom, Prenom,"
+					+ " Telephone, Adresse, Email, MotDePasse"
 					+ "FROM CLIENT WHERE IdClient = ?");
 
 			ps1.setInt(1, c.getIdClient());
@@ -72,6 +77,8 @@ public class ClientDAO implements IClientDAO {
 				c.setNumPermis(rs.getString("NumPermis"));
 				c.setNom(rs.getString("Nom"));
 				c.setPrenom(rs.getString("Prenom"));
+				c.setTelephone(rs.getString("Telephone"));
+				c.setAdresse(rs.getString("Adresse"));
 				c.setEmail(rs.getString("Email"));
 				c.setMotDePasse(rs.getString("MotDePasse"));
 			}
@@ -109,7 +116,7 @@ public class ClientDAO implements IClientDAO {
 		Connection connection = SingletonConnection.getConnexion();
 		try {
 			PreparedStatement ps = connection.prepareStatement(
-					"SELECT IdClient, NumPermis, Nom, Prenom, Email, MotDePasse"
+					"SELECT IdClient, NumPermis, Nom, Prenom, Telephone, Adresse, Email, MotDePasse"
 							+ "FROM CLIENT");
 
 			ResultSet rs = ps.executeQuery();
@@ -120,6 +127,8 @@ public class ClientDAO implements IClientDAO {
 				c.setNumPermis(rs.getString("NumPermis"));
 				c.setNom(rs.getString("Nom"));
 				c.setPrenom(rs.getString("Prenom"));
+				c.setTelephone(rs.getString("Telephone"));
+				c.setAdresse(rs.getString("Adresse"));
 				c.setEmail(rs.getString("Email"));
 				c.setMotDePasse(rs.getString("MotDePasse"));
 				
@@ -140,7 +149,7 @@ public class ClientDAO implements IClientDAO {
 		Connection connection = SingletonConnection.getConnexion();
 		try {
 			PreparedStatement ps = connection.prepareStatement(
-					"SELECT IdClient, NumPermis, Nom, Prenom, Email, MotDePasse"
+					"SELECT IdClient, NumPermis, Nom, Prenom, Telephone, Adresse, Email, MotDePasse"
 							+ "FROM CLIENT WHERE IdClient = ?");
 
 			ps.setInt(1, id);
@@ -152,6 +161,8 @@ public class ClientDAO implements IClientDAO {
 				c.setNumPermis(rs.getString("NumPermis"));
 				c.setNom(rs.getString("Nom"));
 				c.setPrenom(rs.getString("Prenom"));
+				c.setTelephone(rs.getString("Telephone"));
+				c.setAdresse(rs.getString("Adresse"));
 				c.setEmail(rs.getString("Email"));
 				c.setMotDePasse(rs.getString("MotDePasse"));
 			}
@@ -171,7 +182,7 @@ public class ClientDAO implements IClientDAO {
 		Connection connection = SingletonConnection.getConnexion();
 		try {
 			PreparedStatement ps = connection.prepareStatement(
-					"SELECT IdClient, NumPermis, Nom, Prenom, Email, MotDePasse"
+					"SELECT IdClient, NumPermis, Nom, Prenom, Telephone, Adresse, Email, MotDePasse"
 							+ "FROM CLIENT WHERE Nom = ?");
 
 			ps.setString(1, nom);
@@ -184,6 +195,8 @@ public class ClientDAO implements IClientDAO {
 				c.setNumPermis(rs.getString("NumPermis"));
 				c.setNom(rs.getString("Nom"));
 				c.setPrenom(rs.getString("Prenom"));
+				c.setTelephone(rs.getString("Telephone"));
+				c.setAdresse(rs.getString("Adresse"));
 				c.setEmail(rs.getString("Email"));
 				c.setMotDePasse(rs.getString("MotDePasse"));
 				
