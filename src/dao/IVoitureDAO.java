@@ -3,7 +3,7 @@ package dao;
 import java.sql.Date;
 import java.util.List;
 
-import entities.Voiture;
+import metier.Voiture;
 
 public interface IVoitureDAO {
 	
@@ -17,7 +17,7 @@ public interface IVoitureDAO {
 	
 	public List<Voiture> rechercherVoituresParMarque(String marque);
 	
-	public List<Voiture> rechercherVoituresParCatDate(String categorie, Date dateDebut, Date dateFin);
+	public List<Voiture> rechercherVoituresParCatDate(String categorie, Date dateDebut);
 	
 	public Voiture rechercherVoitureParMatricule(String matricule);
 	

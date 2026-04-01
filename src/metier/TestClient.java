@@ -3,7 +3,6 @@ package metier;
 import java.util.List;
 
 import dao.ClientDAO;
-import entities.Client;
 
 public class TestClient {
 

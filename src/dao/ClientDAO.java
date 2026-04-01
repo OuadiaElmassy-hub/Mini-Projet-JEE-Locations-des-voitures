@@ -7,7 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import entities.Client;
+import metier.Client;
 
 public class ClientDAO implements IClientDAO {
 
@@ -49,8 +49,8 @@ public class ClientDAO implements IClientDAO {
 		Connection connection = SingletonConnection.getConnexion();
 		try {
 			PreparedStatement ps = connection.prepareStatement("UPDATE CLIENT "
-					+ "SET NumPermis = ?, SET Nom = ?, SET Prenom = ?, SET Telephone = ?,"
-					+ "SET Adresse = ?, SET Email = ?,SET MotDePasse = ? WHERE IdClient = ?");
+					+ "SET NumPermis = ?, Nom = ?, Prenom = ?, Telephone = ?,"
+					+ "Adresse = ?, Email = ?, MotDePasse = ? WHERE IdClient = ?");
 
 			ps.setString(1, c.getNumPermis());
 			ps.setString(2, c.getNom());
@@ -215,6 +215,32 @@ public class ClientDAO implements IClientDAO {
 	public List<Client> rechercherClientParAutre() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public int getIdClientLogin(String username, String password) {
+		
+		Connection connection = SingletonConnection.getConnexion();
+		int id = -1;
+		try {
+			
+			PreparedStatement pst=connection.prepareStatement
+					("SELECT IdClient FROM CLIENT WHERE Email = ? AND MotDePasse = ?");
+			pst.setString(1,username);
+			pst.setString(2,password);
+			
+			ResultSet rs = pst.executeQuery();
+			
+			if(rs.next()) {
+				id = rs.getInt("IdClient");
+			}
+			rs.close();
+			pst.close();
+			
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+		return id; 
 	}
 }
 

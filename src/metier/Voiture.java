@@ -1,4 +1,4 @@
-package entities;
+package metier;
 
 import java.io.Serializable;
 
@@ -10,20 +10,23 @@ public class Voiture implements Serializable  { // dans tous les classes entitie
 	private String marque;
 	private String modele;
 	private String categorie;
-	private Double prixJour;
+	private int prixJour;
+	private String image;
+	
 	//private boolean disponible;
 	
 	public Voiture(){
 		super();
 	}
 	
-	public Voiture(String matricule, String marque, String modele, String categorie, Double prixJour) {
+	public Voiture(String matricule, String marque, String modele, String categorie, int prixJour, String image) {
 		super();
 		this.matricule = matricule;
 		this.marque = marque;
 		this.modele = modele;
 		this.categorie = categorie;
 		this.prixJour = prixJour;
+		this.image = image;
 	}
 	
 	public void setIdVoiture(int idVoiture) {
@@ -68,11 +71,19 @@ public class Voiture implements Serializable  { // dans tous les classes entitie
 		this.categorie = categorie;
 	}
 
-	public void setPrixJour(Double prixJour) {
+	public void setPrixJour(int prixJour) {
 		this.prixJour = prixJour;
 	}
 	
-	public Double getPrixJour() {
+	public int getPrixJour() {
 		return prixJour;
+	}
+
+	public String getImage() {
+		return image;
+	}
+
+	public void setImage(String image) {
+		this.image = image;
 	}
 }

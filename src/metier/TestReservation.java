@@ -4,14 +4,13 @@ import java.sql.Date;
 import java.util.List;
 
 import dao.ReservationDAO;
-import entities.Reservation;
 
 public class TestReservation {
 
 	public static void main(String[] args) {
 		ReservationDAO testreservation = new ReservationDAO();
 		
-		Reservation r1 = new Reservation(Date.valueOf("2026-03-01"), Date.valueOf("2026-03-03"), 2000.0, "CONFIRMEE", 1, 3);
+		Reservation r1 = new Reservation(Date.valueOf("2026-03-01"), Date.valueOf("2026-03-03"), "CONFIRMEE", 2000, 1, 3);
 		testreservation.ajouterReservation(r1);// la methode retourne un element avec son id
 		
 	    List<Reservation> reservations = testreservation.getAllReservations();

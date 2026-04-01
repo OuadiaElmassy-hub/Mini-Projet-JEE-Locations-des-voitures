@@ -8,7 +8,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import entities.Reservation;;
+import metier.Reservation;;
 
 public class ReservationDAO implements IReservationDAO{
 
@@ -18,14 +18,13 @@ public class ReservationDAO implements IReservationDAO{
 		try {
 			PreparedStatement ps = connection.prepareStatement
 					("INSERT INTO RESERVATION (DateDebut, DateFin, Montant,"
-						+ " statusReservation, IdClient, IdVoiture) VALUES (?, ?, ?, ?, ?, ?)");
+						+ " IdClient, IdVoiture) VALUES (?, ?, ?, ?, ?)");
 			
 			ps.setDate(1, r.getDateDebut());
 			ps.setDate(2, r.getDateFin());
-			ps.setDouble(3, r.getMontant());
-			ps.setString(4, r.getStatutReservation());
-			ps.setInt(5, r.getIdClient());
-			ps.setInt(6, r.getIdVoiture());
+			ps.setInt(3, r.getMontant());
+			ps.setInt(4, r.getIdClient());
+			ps.setInt(5, r.getIdVoiture());
 			
 			ps.executeUpdate();
 			
@@ -50,13 +49,13 @@ public class ReservationDAO implements IReservationDAO{
 		Connection connection = SingletonConnection.getConnexion();
 		try {
 			PreparedStatement ps = connection.prepareStatement("UPDATE RESERVATION "
-					+ "SET DateDebut = ?, SET DateFin = ?, SET Montant = ?,"
-					+ "SET statusReservation = ?, SET IdClient = ?, SET IdVoiture = ? "
+					+ "SET DateDebut = ?, DateFin = ?, Montant = ?,"
+					+ "statusReservation = ?, IdClient = ?, IdVoiture = ? "
 					+ "WHERE IdReservation = ?");
 			
 			ps.setDate(1, r.getDateDebut());
 			ps.setDate(2, r.getDateFin());
-			ps.setDouble(3, r.getMontant());
+			ps.setInt(3, r.getMontant());
 			ps.setString(4, r.getStatutReservation());
 			ps.setInt(5, r.getIdClient());
 			ps.setInt(6, r.getIdVoiture());
@@ -77,7 +76,7 @@ public class ReservationDAO implements IReservationDAO{
 				
 				r.setDateDebut(rs.getDate("DateDebut"));
 				r.setDateFin(rs.getDate("DateFin"));
-				r.setMontant(rs.getDouble("Montant"));
+				r.setMontant(rs.getInt("Montant"));
 				r.setStatutReservation(rs.getString("StatusReservation"));
 				r.setIdClient(rs.getInt("IdClient"));
 				r.setIdVoiture(rs.getInt("IdVoiture"));
@@ -126,7 +125,7 @@ public class ReservationDAO implements IReservationDAO{
 				r.setIdReservation(rs.getInt("IdReservation"));
 				r.setDateDebut(rs.getDate("DateDebut"));
 				r.setDateFin(rs.getDate("DateFin"));
-				r.setMontant(rs.getDouble("Montant"));
+				r.setMontant(rs.getInt("Montant"));
 				r.setStatutReservation(rs.getString("StatusReservation"));
 				r.setIdClient(rs.getInt("IdClient"));
 				r.setIdVoiture(rs.getInt("IdVoiture"));
@@ -156,7 +155,7 @@ public class ReservationDAO implements IReservationDAO{
 				r.setIdReservation(rs.getInt("IdReservation"));
 				r.setDateDebut(rs.getDate("DateDebut"));
 				r.setDateFin(rs.getDate("DateFin"));
-				r.setMontant(rs.getDouble("Montant"));
+				r.setMontant(rs.getInt("Montant"));
 				r.setStatutReservation(rs.getString("StatusReservation"));
 				r.setIdClient(rs.getInt("IdClient"));
 				r.setIdVoiture(rs.getInt("IdVoiture"));
@@ -190,7 +189,7 @@ public class ReservationDAO implements IReservationDAO{
 				r.setIdReservation(rs.getInt("IdReservation"));
 				r.setDateDebut(rs.getDate("DateDebut"));
 				r.setDateFin(rs.getDate("DateFin"));
-				r.setMontant(rs.getDouble("Montant"));
+				r.setMontant(rs.getInt("Montant"));
 				r.setStatutReservation(rs.getString("StatusReservation"));
 				r.setIdClient(rs.getInt("IdClient"));
 				r.setIdVoiture(rs.getInt("IdVoiture"));
@@ -224,7 +223,7 @@ public class ReservationDAO implements IReservationDAO{
 				r.setIdReservation(rs.getInt("IdReservation"));
 				r.setDateDebut(rs.getDate("DateDebut"));
 				r.setDateFin(rs.getDate("DateFin"));
-				r.setMontant(rs.getDouble("Montant"));
+				r.setMontant(rs.getInt("Montant"));
 				r.setStatutReservation(rs.getString("StatusReservation"));
 				r.setIdClient(rs.getInt("IdClient"));
 				r.setIdVoiture(rs.getInt("IdVoiture"));

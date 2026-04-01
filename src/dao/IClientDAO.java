@@ -2,7 +2,7 @@ package dao;
 
 import java.util.List;
 
-import entities.Client;
+import metier.Client;
 
 public interface IClientDAO {
 	
@@ -17,6 +17,8 @@ public interface IClientDAO {
 	public List<Client> rechercherClientsParNom(String nom);
 	
 	public List<Client> rechercherClientParAutre(/* Depend on attributes*/);
+	
+	public int getIdClientLogin(String username, String password);
 	
 	public List<Client> getAllClients();
 

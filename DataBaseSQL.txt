@@ -1,0 +1,73 @@
+
+CREATE TABLE Client (
+    IdClient INT(10) AUTO_INCREMENT NOT NULL, 
+    Nom VARCHAR(20) NOT NULL,
+    Permis VARCHAR(20) NOT NULL,
+    Prenom VARCHAR(30) NOT NULL, 
+    Email VARCHAR(30) NOT NULL UNIQUE, 
+    Telephon VARCHAR(20) NOT NULL, 
+    --Adresse VARCHAR(50), 
+    MotDePasse VARCHAR(40) NOT NULL, 
+    PRIMARY KEY (IdClient)
+);
+   
+DROP TABLE IF EXISTS Voiture ; 
+
+CREATE TABLE Voiture (
+    IdVoiture INT AUTO_INCREMENT NOT NULL, 
+    Matricule VARCHAR(50) UNIQUE, 
+    Marque VARCHAR(50), 
+    Modele VARCHAR(50), 
+    Categorie VARCHAR(30), 
+    PrixJour int, 
+    PRIMARY KEY (IdVoiture));
+   
+DROP TABLE IF EXISTS Réservation ; 
+
+CREATE TABLE Reservation (
+    IdReservation INT AUTO_INCREMENT NOT NULL, 
+    DateDebut DATE, 
+    DateFin DATE,
+    Montant int, 
+    StatutReservation VARCHAR(20) default = 'CONFIRMEE',--CONFIRMEE ou ANNULEE
+    IdClient INT, 
+    IdVoiture INT, 
+    PRIMARY KEY (IdReservation)
+);  
+ 
+ALTER TABLE Reservation 
+ADD CONSTRAINT FK_Reservation_Id_Client FOREIGN KEY (IdClient) 
+REFERENCES Client (IdClient); 
+
+ALTER TABLE Reservation 
+ADD CONSTRAINT FK_Reservation_IdVoiture_Voiture FOREIGN KEY (IdVoiture) 
+REFERENCES Voiture (IdVoiture); 
+
+--------Insertion des exemples de voitures : 
+
+INSERT INTO voiture (Matricule, Marque, Modele, Categorie, PrixJour, Image) VALUES
+-- Citadines
+('25104-ب-12', 'Dacia', 'Logan', 'Citadine', 300, 'dacia-logan.png'),
+('12345-أ-6', 'Dacia', 'Sandero Streetway', 'Citadine', 250, 'dacia-sandero.png'),
+('67890-ب-1', 'Renault', 'Clio 5', 'Citadine', 350, 'renault-clio5.png'),
+('11223-د-26', 'Peugeot', '208', 'Citadine', 350, 'peugeot-208.png'),
+('44556-أ-33', 'Hyundai', 'i10', 'Citadine', 200, 'hyundai-i10.png'),
+
+-- SUV & Crossovers
+('99887-هـ-6', 'Dacia', 'Duster', 'SUV', 450, 'dacia-duster.png'),
+('55443-ط-40', 'Hyundai', 'Tucson', 'SUV', 750, 'hyundai-tucson.png'),
+('22334-أ-1', 'Kia', 'Sportage', 'SUV', 750, 'kia-sportage.png'),
+('66778-ب-6', 'Volkswagen', 'T-Roc', 'SUV', 700, 'vw-troc.png'),
+
+-- Ludospaces & Familiales (7 places incluses)
+('33445-د-26', 'Renault', 'Express', 'Ludospace', 350, 'renault-express.png'),
+('77889-أ-1', 'Peugeot', 'Rifter', 'Ludospace', 450, 'peugeot-rifter.png'),
+('12121-ب-6', 'Citroën', 'Berlingo', 'Ludospace', 400, 'citroen-berlingo.png'),
+('34343-هـ-40', 'Dacia', 'Lodgy (7 places)', 'Ludospace', 450, 'dacia-lodgy.png'),
+('56565-أ-1', 'Volkswagen', 'Touran (7 places)', 'Ludospace', 800, 'vw-touran.png'),
+('78787-د-6', 'Kia', 'Carens (7 places)', 'Ludospace', 700, 'kia-carens.png'),
+
+-- Luxe & Premium
+('90909-أ-1', 'Volkswagen', 'Tiguan', 'Luxe', 900, 'vw-tiguan.png'),
+('11111-ب-6', 'Range Rover', 'Evoque', 'Luxe', 1600, 'rr-evoque.png'),
+('22222-د-1', 'Mercedes-Benz', 'Classe C', 'Luxe', 1800, 'mercedes-c-class.png');

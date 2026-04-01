@@ -3,7 +3,7 @@ package dao;
 import java.sql.Date;
 import java.util.List;
 
-import entities.Reservation;
+import metier.Reservation;
 
 public interface IReservationDAO {
 	

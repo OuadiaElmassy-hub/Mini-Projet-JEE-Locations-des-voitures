@@ -19,7 +19,7 @@ public class SingletonConnection {
 			// charger le pilote jdbc :
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			// creation de la connection
-			connection = DriverManager.getConnection("jdbc:mysql://localehost:3306/location_voitures", "root", "");
+			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/location_voitures", "root", "");
 		
 		} catch(ClassNotFoundException e){
 			e.getStackTrace();
