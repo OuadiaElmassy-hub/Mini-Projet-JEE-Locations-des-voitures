@@ -7,6 +7,6 @@
 <title>Mon Espace</title>
 </head>
 <body>
-	<a href="consultation.php">Consulter les voitures disponibles </a>
+	<a href="consultation.do">Consulter les voitures disponibles </a>
 </body>
 </html>

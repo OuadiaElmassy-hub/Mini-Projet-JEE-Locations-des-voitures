@@ -20,16 +20,16 @@ CREATE TABLE Voiture (
     Modele VARCHAR(50), 
     Categorie VARCHAR(30), 
     PrixJour int, 
+    Image varchar(100),
     PRIMARY KEY (IdVoiture));
    
-DROP TABLE IF EXISTS Réservation ; 
 
 CREATE TABLE Reservation (
     IdReservation INT AUTO_INCREMENT NOT NULL, 
     DateDebut DATE, 
     DateFin DATE,
     Montant int, 
-    StatutReservation VARCHAR(20) default = 'CONFIRMEE',--CONFIRMEE ou ANNULEE
+    StatutReservation VARCHAR(20) default 'CONFIRMEE',--CONFIRMEE ou ANNULEE
     IdClient INT, 
     IdVoiture INT, 
     PRIMARY KEY (IdReservation)
@@ -47,11 +47,38 @@ REFERENCES Voiture (IdVoiture);
 
 INSERT INTO voiture (Matricule, Marque, Modele, Categorie, PrixJour, Image) VALUES
 -- Citadines
+
+
+
+
+('12121-ب-6', 'Citroen', 'Berlingo', 'Ludospace', 400, 'citroen-berlingo.png'),
+('16745-أ-26', 'Citroen', 'C 3', 'Citadine',	250, 'citroen-c3.png'),
+('99887-هـ-6', 'Dacia', 'Duster', 'SUV', 450, 'dacia-duster.png'),
+('34343-هـ-40', 'Dacia', 'Lodgy (7 places)', 'Ludospace', 450, 'dacia-lodgy.png'),
+('25104-ب-12', 'Dacia', 'Logan', 'Citadine', 300, 'dacia-logan.png'),
+('12345-أ-6', 'Dacia', 'Sandero Streetway', 'Citadine', 250, 'dacia-sandero.png'),
+('44556-أ-33', 'Hyundai', 'i10', 'Citadine', 200, 'hyundai-i10.png'),
+('55443-ط-40', 'Hyundai', 'Tucson', 'SUV', 750, 'hyundai-tucson.png'),
+('78787-د-6', 'Kia', 'Carens (7 places)', 'Ludospace', 700, 'kia-carens.png'),
+('22334-أ-1', 'Kia', 'Sportage', 'SUV', 750, 'kia-sportage.png'),
+('22222-د-1', 'Mercedes-Benz', 'Classe C', 'Luxe', 1800, 'mercedes-c-class.png'),
+('11223-د-26', 'Peugeot', '208', 'Citadine', 350, 'peugeot-208.png'),
+('77889-أ-1', 'Peugeot', 'Rifter', 'Ludospace', 450, 'peugeot-rifter.png'),
+('11111-ب-6', 'Range Rover', 'Evoque', 'Luxe', 1600, 'rr-evoque.png'),
+('67890-ب-1', 'Renault', 'Clio 5', 'Citadine', 350, 'renault-clio5.png'),
+('33445-د-26', 'Renault', 'Express', 'Ludospace', 350, 'renault-express.png'),
+('66778-ب-6', 'Volkswagen', 'T-Roc', 'SUV', 700, 'vw-troc.png'),
+('90909-أ-1', 'Volkswagen', 'Tiguan', 'Luxe', 900, 'vw-tiguan.png'),
+('56565-أ-26', 'Volkswagen', 'Touran (7 places)', 'Ludospace', 800, 'vw-touran.png');
+
+INSERT INTO voiture (Matricule, Marque, Modele, Categorie, PrixJour, Image) VALUES
+-- Citadines
 ('25104-ب-12', 'Dacia', 'Logan', 'Citadine', 300, 'dacia-logan.png'),
 ('12345-أ-6', 'Dacia', 'Sandero Streetway', 'Citadine', 250, 'dacia-sandero.png'),
 ('67890-ب-1', 'Renault', 'Clio 5', 'Citadine', 350, 'renault-clio5.png'),
 ('11223-د-26', 'Peugeot', '208', 'Citadine', 350, 'peugeot-208.png'),
 ('44556-أ-33', 'Hyundai', 'i10', 'Citadine', 200, 'hyundai-i10.png'),
+('16745-أ-26', 'Citroen', 'C 3', 'Citadine',	250, 'citroen-c3.png'),
 
 -- SUV & Crossovers
 ('99887-هـ-6', 'Dacia', 'Duster', 'SUV', 450, 'dacia-duster.png'),
@@ -71,3 +98,8 @@ INSERT INTO voiture (Matricule, Marque, Modele, Categorie, PrixJour, Image) VALU
 ('90909-أ-1', 'Volkswagen', 'Tiguan', 'Luxe', 900, 'vw-tiguan.png'),
 ('11111-ب-6', 'Range Rover', 'Evoque', 'Luxe', 1600, 'rr-evoque.png'),
 ('22222-د-1', 'Mercedes-Benz', 'Classe C', 'Luxe', 1800, 'mercedes-c-class.png');
+
+INSERT INTO CLIENT (NumPermis, Nom, Prenom, Telephon, Adresse, Email, MotDePasse) VALUES
+('34/079527', 'EL MASSY', 'Ouadi3', '0650915482', 'Beni Mellal', 'test@gmail.com', 'Test1234'),
+('31/062536', 'Alaoui', 'Khalid', '0657615122', 'Mghila', 'test2@gmail.com', 'Tes1111'),
+('27/059321', 'Kassam', 'Youssef', '0643216703', 'Azilal', 'test3@gmail.com', 'Test2222');

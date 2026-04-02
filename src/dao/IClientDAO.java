@@ -14,11 +14,11 @@ public interface IClientDAO {
 	
 	public Client rechercherClientParId(int id);
 	
-	public List<Client> rechercherClientsParNom(String nom);
+	public List<Client> rechercherClientsParPrenom(String prenom);
 	
 	public List<Client> rechercherClientParAutre(/* Depend on attributes*/);
 	
-	public int getIdClientLogin(String username, String password);
+	public int getIdClientForLogin(String username, String password);
 	
 	public List<Client> getAllClients();
 

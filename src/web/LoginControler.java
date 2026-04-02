@@ -25,7 +25,7 @@ public class LoginControler extends HttpServlet {
 		//stockage de login et password dans model
 		
 		ClientDAO clientlogin = new ClientDAO();
-		int id = clientlogin.getIdClientLogin(login, password);
+		int id = clientlogin.getIdClientForLogin(login, password);
 		
 		//stockage de id dans model puis dans if stockage de model dans session
 		

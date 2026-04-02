@@ -28,7 +28,109 @@ public class MyControler extends HttpServlet {
 		String path = request.getServletPath();
 		VoitureDAO voituredao = new VoitureDAO();
 		
-		if(path.equals("/login.do")) {
+		if(path.equals("/consultationAdmin.do")) {
+			
+			/*HttpSession session = request.getSession(false);
+			if(session == null || session.getAttribute("idClient") == null) { // seulement idClient = Admin
+				response.sendRedirect("auth.jsp");
+				return;
+			}*/
+			List<Voiture> voitures = voituredao.getAllVoitures();
+			
+			request.setAttribute("voitures", voitures);
+
+			request.getRequestDispatcher("consultationDesVoituresAdmin.jsp").forward(request, response);
+			
+		}else if(path.equals("/formSupprimerVoiture.do")) {
+			
+			/*HttpSession session = request.getSession(false);
+			if(session == null || session.getAttribute("idClient") == null) { // seulement idClient = Admin
+				response.sendRedirect("auth.jsp");
+				return;
+			}*/
+			int idVoiture = Integer.parseInt(request.getParameter("idVoiture"));
+			Voiture v = voituredao.rechercherVoitureParId(idVoiture);
+			request.setAttribute("voiture", v);
+			
+			request.getRequestDispatcher("supprimerVoiture.jsp").forward(request, response);
+			
+		}else if(path.equals("/formAjouterVoiture.do")) {
+			/*HttpSession session = request.getSession(false);
+			if(session == null || session.getAttribute("idClient") == null) { // seulement idClient = Admin
+				response.sendRedirect("auth.jsp");
+				return;
+			}*/
+			request.getRequestDispatcher("ajouterVoiture.jsp").forward(request, response);
+			
+		}else if(path.equals("/formModifierVoiture.do")) {
+			/*HttpSession session = request.getSession(false);
+			if(session == null || session.getAttribute("idClient") == null) { // seulement idClient = Admin
+				response.sendRedirect("auth.jsp");
+				return;
+			}*/
+			int idVoiture = Integer.parseInt(request.getParameter("idVoiture"));
+			Voiture v = voituredao.rechercherVoitureParId(idVoiture);
+			request.setAttribute("voiture", v);
+			
+			request.getRequestDispatcher("modifierVoiture.jsp").forward(request, response);
+			
+			//----------------------------------------------------------------------
+			
+		}else if(path.equals("/supprimerVoiture.do")) {
+			
+			/*HttpSession session = request.getSession(false);
+			if(session == null || session.getAttribute("idClient") == null) { // seulement idClient = Admin
+				response.sendRedirect("auth.jsp");
+				return;
+			}*/
+			int idVoiture = Integer.parseInt(request.getParameter("idVoiture"));
+			
+			voituredao.supprimerVoiture(idVoiture);
+			
+			request.getRequestDispatcher("consultationAdmin.do").forward(request, response);
+			
+		}else if(path.equals("/ajouterVoiture.do")) {
+			/*HttpSession session = request.getSession(false);
+			if(session == null || session.getAttribute("idClient") == null) { // seulement idClient = Admin
+				response.sendRedirect("auth.jsp");
+				return;
+			}*/
+			Voiture v = new Voiture();
+			
+			v.setMatricule(request.getParameter("matricule"));
+			v.setMarque(request.getParameter("marque"));
+			v.setModele(request.getParameter("modele"));
+			v.setCategorie(request.getParameter("categorie"));			
+			v.setPrixJour(Integer.parseInt(request.getParameter("prixJour")));
+			
+			v.setImage(request.getParameter("image"));
+			
+			voituredao.ajouterVoiture(v);
+			
+			request.getRequestDispatcher("consultationAdmin.do").forward(request, response);
+			
+		}else if(path.equals("/modifierVoiture.do")) {
+			/*HttpSession session = request.getSession(false);
+			if(session == null || session.getAttribute("idClient") == null) { // seulement idClient = Admin
+				response.sendRedirect("auth.jsp");
+				return;
+			}*/
+			Voiture v = new Voiture();
+			v.setIdVoiture(Integer.parseInt(request.getParameter("idVoiture")));
+			v.setMatricule(request.getParameter("matricule"));
+			v.setMarque(request.getParameter("marque"));
+			v.setModele(request.getParameter("modele"));
+			v.setCategorie(request.getParameter("categorie"));
+			v.setPrixJour(Integer.parseInt(request.getParameter("prixJour")));
+			v.setImage(request.getParameter("image"));
+			voituredao.modifierVoiture(v);
+			
+			request.getRequestDispatcher("consultationAdmin.do").forward(request, response);
+			
+			//-----------------------------------------------------------------------
+			
+			
+		}else if(path.equals("/login.do")) {
 			
 			HttpSession session = request.getSession();
 			String login = request.getParameter("login");
@@ -37,7 +139,7 @@ public class MyControler extends HttpServlet {
 			//stockage de login et password dans model
 			
 			ClientDAO clientlogin = new ClientDAO();
-			int id = clientlogin.getIdClientLogin(login, password);
+			int id = clientlogin.getIdClientForLogin(login, password);
 			
 			//stockage de id dans model puis dans if stockage de model dans session
 			
@@ -92,8 +194,9 @@ public class MyControler extends HttpServlet {
 			
 			HttpSession session = request.getSession(false);
 			
-			if(session == null) {
+			if(session == null || session.getAttribute("idClient") == null) {
 				response.sendRedirect("auth.jsp");
+				return;
 			}
 			
 			String dateString = request.getParameter("dateRetour");
@@ -122,9 +225,12 @@ public class MyControler extends HttpServlet {
 		}else if(path.equals("/validerPaiement.do")) {
 			
 			HttpSession session = request.getSession(false);
-			if(session == null) {
+			if(session == null || session.getAttribute("idClient") == null) {
 				response.sendRedirect("auth.jsp");
+				return;
 			}
+			
+			//vérification de la validité des infos de paiement inseré
 			
 			int idVoiture = (int) session.getAttribute("idVoiture");
 			int idClient = (int) session.getAttribute("idClient");
@@ -137,8 +243,10 @@ public class MyControler extends HttpServlet {
 			Reservation r = new Reservation(dateDebut, dateFin, montant, idClient, idVoiture);
 			
 			reservationdao.ajouterReservation(r);
+			response.sendRedirect("espaceClient.jsp");
 			
 		}else if(path.equals("/annulerPaiement.do")) {
+			
 			response.sendRedirect("consultation.do");
 		
 		}else response.sendRedirect("acceuil.jsp");

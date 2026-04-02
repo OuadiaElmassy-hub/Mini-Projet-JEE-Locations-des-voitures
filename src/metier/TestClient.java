@@ -9,8 +9,11 @@ public class TestClient {
 	public static void main(String[] args) {
 		ClientDAO testclient = new ClientDAO();
 
-		Client c1 = new Client("A12345", "Ouadia", "EL MASSY", "0650915482", "Beni Mellal", "ouadi3@gmail.com", "Ouadia1234");
+		Client c1 = new Client("23/451239", "Adil", "Sahili", 
+				"0654827713", "Beni Mellal", "Adil@gmail.com", "Adil1234");
+		
 		testclient.ajouterClient(c1);// la methode retourne un element avec son id
+		
 		List<Client> clients = testclient.getAllClients();
 
 		System.out.println("===== Affichage de tout les clients : ==========");
@@ -24,11 +27,10 @@ public class TestClient {
 			System.out.println("Mot de passe : " + c.getMotDePasse());
 		    System.out.println("----------------------------------------");
 		    System.out.println("===================================");
-		}
+		}		
 
-		Client clientAmodifier = testclient.rechercherClientParId(4);
-		Client modifications = new Client(/* nouveaux attributs */);
-
+		Client clientAmodifier = testclient.rechercherClientParId(5);
+		
 		System.out.println("====== Opération de modification : ==========");
 		System.out.println("------ Client à modifier : -----------");
 		System.out.println("Numéro : " + clientAmodifier.getIdClient());
@@ -40,7 +42,12 @@ public class TestClient {
 		System.out.println("Mot de passe : " + clientAmodifier.getMotDePasse());
 		System.out.println("----------------------------------------");
 
-		clientAmodifier = testclient.modifierClient(modifications);
+		clientAmodifier.setEmail("test5@gmail.com");
+		clientAmodifier.setMotDePasse("AdilAdil");
+		clientAmodifier.setAdresse("Mghila");
+		clientAmodifier.setTelephone("0621314491");
+		
+		clientAmodifier = testclient.modifierClient(clientAmodifier);
 
 		System.out.println("------ Client après modification : -----------");
 		System.out.println("Numéro : " + clientAmodifier.getIdClient());
@@ -63,6 +70,22 @@ public class TestClient {
 		else
 		    System.out.println("Le client numéro :" + clientAmodifier.getIdClient() + " n'a pas été supprimé");
 		System.out.println("========================================");
-			
+		
+		System.out.println("===== Opération de recherche par nom : ==========");
+		
+		List<Client> clients1 = testclient.rechercherClientsParPrenom("Youssef");
+		
+		System.out.println("===== Affichage de resultats : ==========");
+		for (Client c : clients1) {
+		    System.out.println("Numéro : " + c.getIdClient());
+		    System.out.println("Nom : " + c.getNom());
+		    System.out.println("Prénom : " + c.getPrenom());
+		    System.out.println("Téléphone : " + c.getTelephone());
+		    System.out.println("Adresse : " + c.getAdresse());
+			System.out.println("Email : " + c.getEmail());
+			System.out.println("Mot de passe : " + c.getMotDePasse());
+		    System.out.println("----------------------------------------");
+		    System.out.println("===================================");
+		}	
 	}
 }

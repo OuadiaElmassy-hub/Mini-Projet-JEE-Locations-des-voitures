@@ -7,7 +7,7 @@
 <title>Login</title>
 </head>
 <body>
-<form method="POST" action="login.php">
+<form method="POST" action="login.do">
 <table style="border:solid 4px">
 	<tr>
 		<td>User name</td>

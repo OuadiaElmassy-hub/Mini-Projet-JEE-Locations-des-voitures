@@ -17,7 +17,7 @@ public class ClientDAO implements IClientDAO {
 		Connection connection = SingletonConnection.getConnexion();
 		try {
 			PreparedStatement ps = connection.prepareStatement("INSERT INTO CLIENT "
-					+ "( NumPermis, Nom, Prenom, Telephone,  Adresse, Email, MotDePasse) VALUES (?, ?, ?, ?, ?, ?)");
+					+ "( NumPermis, Nom, Prenom, Telephone,  Adresse, Email, MotDePasse) VALUES (?, ?, ?, ?, ?, ?, ?)");
 
 			ps.setString(1, c.getNumPermis());
 			ps.setString(2, c.getNom());
@@ -66,7 +66,7 @@ public class ClientDAO implements IClientDAO {
 			// on peut retourner directement le Client de parametre.
 			
 			PreparedStatement ps1 = connection.prepareStatement("SELECT IdClient, NumPermis, Nom, Prenom,"
-					+ " Telephone, Adresse, Email, MotDePasse"
+					+ " Telephone, Adresse, Email, MotDePasse "
 					+ "FROM CLIENT WHERE IdClient = ?");
 
 			ps1.setInt(1, c.getIdClient());
@@ -117,7 +117,7 @@ public class ClientDAO implements IClientDAO {
 		try {
 			PreparedStatement ps = connection.prepareStatement(
 					"SELECT IdClient, NumPermis, Nom, Prenom, Telephone, Adresse, Email, MotDePasse"
-							+ "FROM CLIENT");
+							+ " FROM CLIENT");
 
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
@@ -145,18 +145,19 @@ public class ClientDAO implements IClientDAO {
 
 	@Override
 	public Client rechercherClientParId(int id) {
-		Client c = new Client();
+		
+		Client c = null;
 		Connection connection = SingletonConnection.getConnexion();
 		try {
 			PreparedStatement ps = connection.prepareStatement(
 					"SELECT IdClient, NumPermis, Nom, Prenom, Telephone, Adresse, Email, MotDePasse"
-							+ "FROM CLIENT WHERE IdClient = ?");
+							+ " FROM CLIENT WHERE IdClient = ?");
 
 			ps.setInt(1, id);
 
 			ResultSet rs = ps.executeQuery();
 			if (rs.next()) {
-
+				c = new Client();
 				c.setIdClient(rs.getInt("IdClient"));
 				c.setNumPermis(rs.getString("NumPermis"));
 				c.setNom(rs.getString("Nom"));
@@ -176,16 +177,16 @@ public class ClientDAO implements IClientDAO {
 	}
 
 	@Override
-	public List<Client> rechercherClientsParNom(String nom) {
+	public List<Client> rechercherClientsParPrenom(String prenom) {
 		
 		List<Client> clients = new ArrayList<>();
 		Connection connection = SingletonConnection.getConnexion();
 		try {
 			PreparedStatement ps = connection.prepareStatement(
 					"SELECT IdClient, NumPermis, Nom, Prenom, Telephone, Adresse, Email, MotDePasse"
-							+ "FROM CLIENT WHERE Nom = ?");
+							+ " FROM CLIENT WHERE Prenom = ?");
 
-			ps.setString(1, nom);
+			ps.setString(1, prenom);
 
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
@@ -218,7 +219,7 @@ public class ClientDAO implements IClientDAO {
 	}
 
 	@Override
-	public int getIdClientLogin(String username, String password) {
+	public int getIdClientForLogin(String username, String password) {
 		
 		Connection connection = SingletonConnection.getConnexion();
 		int id = -1;
